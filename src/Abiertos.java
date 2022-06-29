@@ -21,18 +21,13 @@ public class Abiertos {
         if(lista==null){
             lista=nuevo;
         }else{
-            //2-3-1
-        
-           
             aux=lista;
             while(aux!=null && aux.abiertos.getFh()<=estado.getFh()){
                 aux2=aux;
                 aux=aux.siguiente;                
             }
-            //1-2-6
-            //-1
+
             if(aux==lista){
-                //aux.siguiente=nuevo;
                 if(lista.abiertos.getFh()==estado.getFh()){
                     aux2.siguiente=nuevo;
                 }else{
@@ -41,13 +36,10 @@ public class Abiertos {
                 
             }else{
                 aux2.siguiente=nuevo;
-                //nuevo.siguiente=aux;
             }
             nuevo.siguiente=aux;
         }
-          //System.out.println("Lista de Cerrados");
-          //cerrado.mostrarCerrados();
-        //cerrado.compararDiscos(estado);
+
     }
     
     public void eliminarAbiertos(){
@@ -138,18 +130,6 @@ public class Abiertos {
                 //i++;
                 aux2E=aux2E.siguiente;
             }
-            /*System.out.println("Nodo: "+auxiliar.abiertos.getNombre());
-            for(int i=0;i<torreauxA.size();i++){
-                System.out.println(torreauxA.get(i));
-                System.out.println("---------------------");
-            }
-            System.out.println("***************************");
-            System.out.println("Nodo Verificar: "+estadoVerificar.getNombre());
-            for(int i=0;i<torrea.size();i++){
-                System.out.println(torrea.get(i));
-                System.out.println("---------------------");
-            }
-            */
             
             if(torrea.equals(torreauxA)&&torreb.equals(torreauxB)&&torrec.equals(torreauxC)){
                 
@@ -161,4 +141,6 @@ public class Abiertos {
         }
        return false;
     }
+    
+    
 }

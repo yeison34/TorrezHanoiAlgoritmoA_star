@@ -1,4 +1,7 @@
 
+import java.util.ArrayList;
+
+
 public class Pila {
     private NodoPila pila;
     private String nombre;
@@ -59,5 +62,20 @@ public class Pila {
     
     public boolean pilaVacia(){
         return pila==null;
+    }
+    
+    public void mostrarDatosPilas(){
+        NodoPila aux=pila;
+        ArrayList<Integer> pilas=new ArrayList<>();
+        pilas.clear();
+        while(aux!=null){
+            pilas.add(aux.valor);
+            aux=aux.siguiente;
+        }
+        System.out.println("Pila"+this.nombre);
+        for(int i=0;i<pilas.size();i++){
+            System.out.println(pilas.get(i));
+        }
+        System.out.println("---------------------");
     }
 }

@@ -16,7 +16,7 @@ public class Principal {
         inicial.getPilaB().inicializarPila();
         inicial.getPilaC().inicializarPila();
         
-        NodoEstado objetivo=new NodoEstado(0,0,0,"Objetivo",null);
+        NodoEstado objetivo=new NodoEstado(0,0,5,"Objetivo",null);
         objetivo.getPilaC().apilar(4);
         objetivo.getPilaC().apilar(3);
         objetivo.getPilaC().apilar(2);
@@ -28,20 +28,18 @@ public class Principal {
         abiertos.insertarAbiertos(inicial);
         int cantidad=0;
         boolean flag=false;                
-                        while(abiertos.getAbiertos().abiertos.getFh()!=5){
+                        while(abiertos.getAbiertos().abiertos.getFh()!=objetivo.getFh()){
                               NodoEstado nuevoEstado=abiertos.getAbiertos().abiertos;
                               
                               if(!cerrado.verificarCerrados(nuevoEstado)){
                                   generarGrafo(nuevoEstado);
-                                 
-                                  System.out.println("Lista sucesores: \t\t"+nuevoEstado.getNombre());
+                                  /*System.out.println("Lista sucesores: \t\t"+nuevoEstado.getNombre());
                                   nuevoEstado.sucesores.mostarSucesores();
                                   System.out.println("************************");
+                                  */
                                   cerrado.insertarCerrados(nuevoEstado);
-                                 
                                   abiertos.eliminarAbiertos();
                               }else{
-                                  
                                   abiertos.eliminarAbiertos();
                               }
                               flag=true;
@@ -50,8 +48,44 @@ public class Principal {
                         
                         
                         if(flag){
+                            cerrado.insertarCerrados(abiertos.getAbiertos().abiertos);
+                            //abiertos.eliminarAbiertos();
+                            
+                            //abiertos.eliminarAbiertos();
+                            
                             System.out.println("Exito");
-                              System.out.println("Cantidad de Iteraciones: "+cantidad);
+                            System.out.println("********************* RUTA ****************************");
+                            //System.out.println(abiertos.getAbiertos().abiertos.getNombre());
+                            
+                            NodoEstado aux=abiertos.getAbiertos().abiertos;
+                            PilaRuta pilaRuta=new PilaRuta();
+                            
+                            while(!aux.getNombre().equalsIgnoreCase("Padre")){
+                                pilaRuta.insertarRuta(aux);
+                                aux=aux.getPadre();
+                            }
+                            pilaRuta.obtenerRuta();
+                            /*NodoCerrados correrRuta=pilaRuta.lista;
+                            while(correrRuta!=null){
+                                correrRuta.estados.getPilaA().mostrarDatosPilas();
+                                correrRuta.estados.getPilaB().mostrarDatosPilas();
+                                correrRuta.estados.getPilaC().mostrarDatosPilas();
+                                correrRuta=correrRuta.siguiente;
+                            }
+                            */
+                            /*abiertos.getAbiertos().abiertos.getPilaA().mostrarDatosPilas();
+                            abiertos.getAbiertos().abiertos.getPilaB().mostrarDatosPilas();
+                            abiertos.getAbiertos().abiertos.getPilaC().mostrarDatosPilas();
+                            
+                            System.out.println(abiertos.getAbiertos().abiertos.getPadre().getNombre());
+                            
+                            
+                            abiertos.getAbiertos().abiertos.getPadre().getPilaA().mostrarDatosPilas();
+                            abiertos.getAbiertos().abiertos.getPadre().getPilaB().mostrarDatosPilas();
+                            abiertos.getAbiertos().abiertos.getPadre().getPilaC().mostrarDatosPilas();
+                            */
+                            
+                              /*System.out.println("Cantidad de Iteraciones: "+cantidad);
                         
                               System.out.println("Lista Abiertos");
                               
@@ -61,6 +95,7 @@ public class Principal {
                               System.out.println("Lista Cerrados");
                               cerrado.mostrarCerrados();
                               System.out.println("----------------");
+                              */
                         }else{
                             System.out.println("Fracaso");
                         }
@@ -239,7 +274,7 @@ public class Principal {
         }
         
         if(bandera==true){
-            estado.setH(-1000*-1);
+            estado.setH(1000);
         }else{
             estado.setH(cont);
         }
@@ -259,7 +294,5 @@ public class Principal {
                 generarSucesores(nuevoEstado,"C","A");
                 generarSucesores(nuevoEstado,"C","B");
                 
-                //nuevoEstado.sucesores.mostarSucesores();
-                 
     }
 }
