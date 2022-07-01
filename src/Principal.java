@@ -46,9 +46,13 @@ public class Principal {
         int cantidad=0;
         
         //bandera para determinar si ya se llego al estado objetivo
-        boolean flag=false;                
+        boolean flag=false;
+                        NodoEstado nuevoEstado=abiertos.getAbiertos().abiertos;
+                        //System.out.println(abiertos.getAbiertos().abiertos.getNombre());
+                        //System.out.println(abiertos.getAbiertos().abiertos.getFh());
+                        //System.out.println(objetivo.getFh());
                         while(abiertos.getAbiertos().abiertos.getFh()!=objetivo.getFh()){
-                              NodoEstado nuevoEstado=abiertos.getAbiertos().abiertos;
+                                nuevoEstado=abiertos.getAbiertos().abiertos;
                               
                               if(!cerrado.verificarCerrados(nuevoEstado)){
                                   generarGrafo(nuevoEstado);
@@ -64,7 +68,7 @@ public class Principal {
                                   abiertos.eliminarAbiertos();
                               }
                               flag=true;
-                         cantidad++;     
+                            //cantidad++;     
                         }
                         
                         
@@ -246,9 +250,9 @@ public class Principal {
         NodoPila pilaB=nuevoEstado.getPilaB().getPila();
         NodoPila pilaC=nuevoEstado.getPilaC().getPila();
         
-        boolean bandera=false;
+        boolean banderas=false;
         int comparar=0;
-        
+        int conta=0;
         while(pilaA!=null){
             
             if(pilaA.siguiente==null){
@@ -258,7 +262,7 @@ public class Principal {
             }
             
             if(pilaA.valor>comparar){
-                bandera=true;
+                banderas=true;
                 break;
             }
             pilaA=pilaA.siguiente;
@@ -274,7 +278,7 @@ public class Principal {
             }
             
             if(pilaB.valor>comparar){
-                bandera=true;
+                banderas=true;
                 break;
             }
             pilaB=pilaB.siguiente;
@@ -291,18 +295,18 @@ public class Principal {
             }
             
             if(pilaC.valor>comparar){
-                bandera=true;
+                banderas=true;
                 break;
             }else{
-                cont=cont+1;
+                conta=conta+1;
             }
             pilaC=pilaC.siguiente;
         }
         
-        if(bandera==true){
+        if(banderas==true){
             estado.setH(1000);
         }else{
-            estado.setH(cont);
+            estado.setH(conta);
         }
         
         estado.setG(1);
