@@ -1,14 +1,17 @@
 
+import java.util.Arrays;
+
+
 public class Principal {
     private static int cont=0;
     private static boolean bandera=false;
     
     static Cerrados cerrado=new Cerrados();
     static Abiertos abiertos=new Abiertos();
-    
+    static int nivel=0;
     public static void main(String[] args) {
         ///estado inicial
-        NodoEstado inicial=new NodoEstado(0,0,0,"Padre",null);
+        NodoEstado inicial=new NodoEstado(0,0,0,"Padre",null,0);
         
         //carga los discos a la pila A, de donde parten los discos, en este caso en la torre A
         inicial.getPilaA().apilar(4);
@@ -23,7 +26,7 @@ public class Principal {
         inicial.getPilaC().inicializarPila();
         
         //estado objetivo
-        NodoEstado objetivo=new NodoEstado(0,0,5,"Objetivo",null);
+        NodoEstado objetivo=new NodoEstado(0,0,5,"Objetivo",null,0);
         
         //el objetivo es que los discos queden en la torre c
         objetivo.getPilaC().apilar(4);
@@ -47,73 +50,59 @@ public class Principal {
         
         //bandera para determinar si ya se llego al estado objetivo
         boolean flag=false;
-                        NodoEstado nuevoEstado=abiertos.getAbiertos().abiertos;
-                        //System.out.println(abiertos.getAbiertos().abiertos.getNombre());
-                        //System.out.println(abiertos.getAbiertos().abiertos.getFh());
-                        //System.out.println(objetivo.getFh());
-                        while(abiertos.getAbiertos().abiertos.getFh()!=objetivo.getFh()){
-                                nuevoEstado=abiertos.getAbiertos().abiertos;
-                              
-                              if(!cerrado.verificarCerrados(nuevoEstado)){
-                                  generarGrafo(nuevoEstado);
-                                  
-                                  /*System.out.println("Lista sucesores: \t\t"+nuevoEstado.getNombre());
-                                  nuevoEstado.sucesores.mostarSucesores();
-                                  System.out.println("************************");
-                                  */
-                                  
-                                  cerrado.insertarCerrados(nuevoEstado);
-                                  abiertos.eliminarAbiertos();
-                              }else{
-                                  abiertos.eliminarAbiertos();
-                              }
-                              flag=true;
-                            //cantidad++;     
-                        }
-                        
-                        
-                        if(flag){
-                            cerrado.insertarCerrados(abiertos.getAbiertos().abiertos);
-                           
-                            System.out.println("Exito");
-                            System.out.println("********************* RUTA ****************************");
-                            //System.out.println(abiertos.getAbiertos().abiertos.getNombre());
-                            
-                            NodoEstado aux=abiertos.getAbiertos().abiertos;
-                            PilaRuta pilaRuta=new PilaRuta();
-                            
-                            while(!aux.getNombre().equalsIgnoreCase("Padre")){
-                                pilaRuta.insertarRuta(aux);
-                                aux=aux.getPadre();
-                            }
-                            pilaRuta.obtenerRuta();
-                              /*System.out.println("Cantidad de Iteraciones: "+cantidad);
-                        
-                              System.out.println("Lista Abiertos");
-                              
-                              abiertos.mostrarAbiertos();
-                              System.out.println("----------------");
-
-                              System.out.println("Lista Cerrados");
-                              cerrado.mostrarCerrados();
-                              System.out.println("----------------");
-                              */
-                        }else{
-                            System.out.println("Fracaso");
-                        }
-                              
-                              
+        int cont=0;
+        
+        //generarSucesores(abiertos.getAbiertos().abiertos)
+        //abiertos.getAbiertos().abiertos.sucesores();
+        NodoEstado siguiente=abiertos.getAbiertos().abiertos;
+        NodoEstado ultimo=null;
+        while(!Arrays.equals(objetivo.arreglo(),siguiente.arreglo())){
+            siguiente=abiertos.getAbiertos().abiertos;
+   
+            if(!cerrado.verificarCerrados(siguiente)){
+                    //System.out.println("Nodo Raiz --> "+siguiente.getNombre());
+                    //nivel++;
+                    generarGrafo(siguiente);
+                    cerrado.insertarCerrados(siguiente);
+                   //abiertos.mostrarAbiertos();
+                   ultimo=siguiente;
+                   abiertos.eliminarAbiertos();
+                   //siguiente.sucesores.mostarSucesores();
+                   
+            }else{
+                abiertos.eliminarAbiertos();
+            }
+            //System.out.println("Nivel " +nivel);
+            //System.out.println("---------------------------------------");
+            
+            cont++;
+            flag=true;
+        }
+        //abiertos.getAbiertos().abiertos.sucesores.mostarSucesores();
+        System.out.println("********************************");
+        System.out.println("Ruta");
+        //System.out.println(nivel);
+        if(flag){
+            PilaRuta ruta=new PilaRuta();
+            NodoEstado aux=ultimo;
+            while(!aux.getNombre().equalsIgnoreCase("Padre")){
+                ruta.insertarRuta(aux);
+                aux=aux.getPadre();
+            }
+            ruta.obtenerRuta();
+        }
+        
                               
     }
     //metodo para generar los sucesores de cada uno de los estados
     //el parametro apilar es el nombre de la torre que va a quitar un disco para desplazarlo a la otra torre
     //el parametro desapilar es nombre de la torre a donde se va adirigir el disco que va a desapilar la torre anterior 
     public static void generarSucesores(NodoEstado estado,String apilar,String desapilar){
-        
+        //nivel++;
         bandera=false;
         NodoEstado estadoPadre=estado;
         //se genera un sucesor y se le asigno todos sus parametros incluyendo a su padre
-        NodoEstado sucesor=new NodoEstado(0,0,0,"hijo",estadoPadre);
+        NodoEstado sucesor=new NodoEstado(0,0,0,"hijo",estadoPadre,estadoPadre.getNivel()+1);
         
         //inicializa las pilas en null
         sucesor.getPilaA().inicializarPila();
@@ -249,7 +238,8 @@ public class Principal {
         NodoPila pilaA=nuevoEstado.getPilaA().getPila();
         NodoPila pilaB=nuevoEstado.getPilaB().getPila();
         NodoPila pilaC=nuevoEstado.getPilaC().getPila();
-        
+        int cantidadValoresC=nuevoEstado.getPilaC().cantidadValores();
+        //System.out.println(cantidadValoresC);
         boolean banderas=false;
         int comparar=0;
         int conta=0;
@@ -296,21 +286,17 @@ public class Principal {
             
             if(pilaC.valor>comparar){
                 banderas=true;
-                break;
-            }else{
-                conta=conta+1;
+                //conta=conta+1;
             }
             pilaC=pilaC.siguiente;
         }
-        
+        estado.setH(cantidadValoresC);
         if(banderas==true){
-            estado.setH(1000);
-        }else{
-            estado.setH(conta);
+            estado.setH(estado.getH()-1000);
         }
         
-        estado.setG(1);
-        estado.setFh(estado.getG()+estado.getH());
+        estado.setG(estado.getNivel());
+        estado.setFh(estado.getH()-estado.getG());
         
     }
     //metodo para generar el grafo

@@ -78,4 +78,14 @@ public class Pila {
         }
         System.out.println("---------------------");
     }
+    
+    public int cantidadValores(){
+        NodoPila aux=pila;
+        int contadorDatos=0;
+        while(aux!=null){
+            contadorDatos++;
+            aux=aux.siguiente;
+        }
+        return contadorDatos;
+    }
 }

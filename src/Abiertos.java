@@ -21,19 +21,16 @@ public class Abiertos {
         if(lista==null){
             lista=nuevo;
         }else{
+            //4-
+            //5-2-
             aux=lista;
-            while(aux!=null && aux.abiertos.getFh()<=estado.getFh()){
+            while(aux!=null && estado.getFh()<=aux.abiertos.getFh()){
                 aux2=aux;
                 aux=aux.siguiente;                
             }
 
             if(aux==lista){
-                if(lista.abiertos.getFh()==estado.getFh()){
-                    aux2.siguiente=nuevo;
-                }else{
-                    lista=nuevo;
-                }
-                
+                lista=nuevo;                
             }else{
                 aux2.siguiente=nuevo;
             }
@@ -43,9 +40,8 @@ public class Abiertos {
     }
     
     public void eliminarAbiertos(){
-        
         lista=lista.siguiente;
-        
+        //return lista;
     }
     
     public NodoAbiertos getAbiertos(){

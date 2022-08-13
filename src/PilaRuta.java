@@ -31,6 +31,7 @@ public class PilaRuta {
             aux.estado.getPilaB().mostrarDatosPilas();
             aux.estado.getPilaC().mostrarDatosPilas();
             System.out.println("Valor Heuristico:\t\t\t\t"+aux.estado.getFh());
+            System.out.println("H: "+aux.estado.getH());
             System.out.println("**************************************************");
             System.out.println("\n");
             aux=aux.siguiente;

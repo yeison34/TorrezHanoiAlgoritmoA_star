@@ -7,9 +7,10 @@ public class NodoEstado {
     private String nombre;
     private Pila a,b,c;
     Sucesores sucesores;
+    private int nivel;
     
-    public NodoEstado(int g,int h,int fh,String nombre,NodoEstado padre){
-        
+    public NodoEstado(int g,int h,int fh,String nombre,NodoEstado padre,int nivel){
+        this.nivel=nivel;
         this.padre=padre;
         this.h=h;
         this.g=g;
@@ -89,5 +90,27 @@ public class NodoEstado {
         this.c=c;
     }
     
+    public int getNivel(){
+        return this.nivel;
+    }
     
+    public int[] arreglo(){
+        NodoPila aux=c.getPila();
+        int pil[]=new int[c.cantidad()];
+        int cont=0;
+        while(aux!=null){
+            pil[cont]=aux.valor;
+            cont++;
+            aux=aux.siguiente;
+        }
+        
+        if(c.pilaVacia()){
+            int auxiliarPila[]=new int[1];
+            auxiliarPila[0]=0;
+            return auxiliarPila;
+        }else{
+             return pil;
+        }
+       
+    }
 }
